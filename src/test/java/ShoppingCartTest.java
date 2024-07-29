@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,7 +49,41 @@ class ShoppingCartTest {
     }
 
     @Test
-    void totalPrice() {
-
+    @DisplayName("returns 0 when shopping cart is empty")
+    void testTotalPriceZeroIfCartIsEmpty() {
+        assertEquals(0.0, cart.totalPrice());
     }
+
+    @Test
+    @DisplayName("returns the sum of product prices")
+    void testTotalPriceIfCartIsNotEmpty() {
+        cart.addItem("Socks", 1001D);
+        cart.addItem("Swingball", 100D);
+
+        assertEquals(1101, cart.totalPrice());
+    }
+
+    @Test
+    @DisplayName("returns false when discount value is invalid")
+    void testDoNotApplyDiscountIfValueIsInvalid() {
+        assertAll(
+                () -> assertFalse(cart.applyDiscount(2.5)),
+                () -> assertFalse(cart.applyDiscount(-1.0))
+                );
+    }
+
+    @Test
+    @DisplayName("applies discount successfully on each of the shopping cart item")
+    void testApplyDiscountOnEachCartItem() {
+        cart.addItem("Socks", 1001D);
+        cart.addItem("Swingball", 100D);
+
+        assertTrue(cart.applyDiscount(0.5));
+
+        assertEquals(0.5, cart.getDiscount());
+        assertEquals(50.0, cart.getItems().get("Swingball"));
+    }
+
+//    @Test
+//    @DisplayName("returns false when shopping cart is empty")
 }
