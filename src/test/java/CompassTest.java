@@ -9,8 +9,8 @@ class CompassTest {
     Compass compass;
 
     @BeforeEach
-    void setUp(){
-         compass = new Compass();
+    void setUp() {
+        compass = new Compass();
     }
 
     @Test
@@ -23,35 +23,22 @@ class CompassTest {
     @Test
     @DisplayName("rotating right")
     void testRotateRight() {
-        assertAll(
-                new Executable() {
-                    @Override
-                    public void execute() throws Throwable {
-                        assertEquals(Point.EAST, compass.rotate(Point.NORTH, Direction.RIGHT));
-                    }
-                },
-                new Executable() {
-                    @Override
-                    public void execute() throws Throwable {
-                        assertEquals(Point.EAST, compass.rotate(Point.NORTH, Direction.RIGHT));
-                    }
-                },
-                new Executable() {
-                    @Override
-                    public void execute() throws Throwable {
-                        assertEquals(Point.WEST, compass.rotate(Point.SOUTH, Direction.RIGHT));
-                    }
-                },
-                new Executable() {
-                    @Override
-                    public void execute() throws Throwable {
-                        assertEquals(Point.NORTH, compass.rotate(Point.WEST, Direction.RIGHT));
-                    }
-                }
-        );
+        assertAll("rotates the compass point to the right direction",
+                () -> assertEquals(Point.EAST, compass.rotate(Point.NORTH, Direction.RIGHT)),
+                () -> assertEquals(Point.SOUTH, compass.rotate(Point.EAST, Direction.RIGHT)),
+                () -> assertEquals(Point.WEST, compass.rotate(Point.SOUTH, Direction.RIGHT)),
+                () -> assertEquals(Point.NORTH, compass.rotate(Point.WEST, Direction.RIGHT)));
 
     }
 
-    private void assertAll(Point rotate, Point rotate1, Point rotate2, Point rotate3) {
+    @Test
+    @DisplayName("rotating left")
+    void testRotateLeft() {
+        assertAll("rotates the compass point to the left direction",
+                () -> assertEquals(Point.WEST, compass.rotate(Point.NORTH, Direction.LEFT)),
+                () -> assertEquals(Point.NORTH, compass.rotate(Point.EAST, Direction.LEFT)),
+                () -> assertEquals(Point.EAST, compass.rotate(Point.SOUTH, Direction.LEFT)),
+                () -> assertEquals(Point.SOUTH, compass.rotate(Point.WEST, Direction.LEFT)));
     }
+
 }
