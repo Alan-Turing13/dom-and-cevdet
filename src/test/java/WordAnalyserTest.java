@@ -15,12 +15,16 @@ class WordAnalyserTest {
     @Test
     void findLongestWords() {
         assertAll("find longest word(s) in input string",
-            () -> assertArrayEquals(new String[]{"longest"}, w.findLongestWords("The longest word")),
-            () -> assertArrayEquals(new String[]{"sentence"}, w.findLongestWords("This is a fairly boring sentence."))
+                () -> assertArrayEquals(new String[]{"longest"}, w.findLongestWords("The longest word")),
+                () -> assertArrayEquals(new String[]{"sentence"}, w.findLongestWords("This is a fairly boring sentence."))
         );
     }
 
     @Test
     void calculateLetterFrequency() {
+        assertAll("find the frequency of each letter",
+                () -> assertEquals(3, w.calculateLetterFrequency("Hello world").get('l')),
+                () -> assertEquals(0, w.calculateLetterFrequency("This is a fairly boring thing.").get('z'))
+        );
     }
 }
