@@ -43,8 +43,11 @@ public class ShoppingCart {
 
     public boolean applyDiscount(double discount) {
         if (discount < 0.0 || discount > 1.0) {
-            System.out.println("Invalid discount value.");
-            return false;
+            throw new IllegalArgumentException("Invalid input.");
+        }
+
+        if (this.items.isEmpty()) {
+            throw new IllegalStateException("Shopping cart is empty.");
         }
 
         this.discount = discount;
@@ -53,6 +56,7 @@ public class ShoppingCart {
             this.items.put(productName, (this.items.get(productName) * discount));
         }
 
+        System.out.println("Discount applied on the cart!");
         return true;
     }
 }
